@@ -151,7 +151,7 @@ returns boolean language sql stable security definer set search_path=public as $
  where a.id=p_assessment and a.school_id=public.timekeeper_school_id()
  and now() between a.opens_at and greatest(a.closes_at,coalesce(a.reopened_until,a.closes_at)))
  and not exists(select 1 from public.timekeeper_results r where r.assessment_id=a.id and r.teacher_id=auth.uid() and r.submitted_at is not null)
- )
+ );
 $$;
 
 create or replace function public.timekeeper_audit_result() returns trigger language plpgsql security definer set search_path=public as $$
