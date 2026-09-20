@@ -87,3 +87,11 @@ Further teacher and student role requests are approved inside the app. The
 administrator also assigns teacher subjects and controls the period during
 which teachers may add or edit marks. Reopening requests are handled in the
 same administrator-only portal.
+
+For the complete multi-school platform, run `supabase/academic-v2.sql` after
+the two earlier scripts. Version 2 adds school codes, automatic first-admin
+creation, centralized offline-ready publications, student roster imports,
+assessments, locked mark submission and auditing, reports, notifications,
+and examination/invigilation management. New installations no longer need
+the manual administrator-email SQL command: choose **Create school** after
+signing in.

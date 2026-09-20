@@ -10,8 +10,9 @@ import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import {clearAll,deleteTimetableFile,getShareUri,loadActiveTimetable,loadAllocations,loadSettings,loadTimetables,saveActiveTimetable,saveAllocations,saveClasses,saveFile,saveSettings,saveTimetables} from './storage';
 import {getCloudConfig,getCloudSession,saveCloudConfig,signIn,signOut,signUp,syncNow} from './cloudSync';
 import ProfessionalTools from './professionalTools';
-import {AppLock} from './schoolSuite';
-import AcademicPortal,{useAcademicRole} from './academicPortal';
+import SchoolSuite,{AppLock} from './schoolSuite';
+import {useAcademicRole} from './academicPortal';
+import SchoolPlatform from './schoolPlatform';
 import UpdatePanel from './updatePanel';
 import type {Allocation,ClassItem,ReminderMode,Settings,StoredFile,Timetable} from './types';
 pdfjs.GlobalWorkerOptions.workerSrc=workerUrl;
@@ -189,7 +190,7 @@ function CloudSyncPanel(){const initial=getCloudConfig(),[url,setUrl]=useState(i
 function SettingsPage(props:Parameters<typeof SettingsPageCore>[0]){
  const isAdmin=useAcademicRole()==='admin';
  const moveActiveToTrash=()=>{const tables=loadTimetables(),id=loadActiveTimetable(),active=tables.find(t=>t.id===id);if(!active)return;if(!window.confirm(`Move ${active.name} to Trash? It can be restored for 30 days.`))return;const updated=tables.map(t=>t.id===id?{...t,deletedAt:Date.now(),remindersEnabled:false}:t),next=updated.find(t=>!t.deletedAt);saveTimetables(updated);saveActiveTimetable(next?.id||'');window.location.reload()};
- return <><UpdatePanel/><AcademicPortal/><CloudSyncPanel/><AlertSoundSetting settings={props.settings} save={props.save}/>{isAdmin?<><ProfessionalTools settings={props.settings} save={props.save}/><SettingsExtras settings={props.settings} save={props.save} allocations={props.allocations} addAllocation={props.addAllocation}/><SettingsPageCore {...props} onClear={moveActiveToTrash}/></>:<PersonalSettings settings={props.settings} classes={props.classes} save={props.save}/>}</>
+ return <><UpdatePanel/><SchoolPlatform/><CloudSyncPanel/><AlertSoundSetting settings={props.settings} save={props.save}/>{isAdmin?<><ProfessionalTools settings={props.settings} save={props.save}/><SchoolSuite/><SettingsExtras settings={props.settings} save={props.save} allocations={props.allocations} addAllocation={props.addAllocation}/><SettingsPageCore {...props} onClear={moveActiveToTrash}/></>:<PersonalSettings settings={props.settings} classes={props.classes} save={props.save}/>}</>
 }
 function PersonalSettings({settings,classes,save}:{settings:Settings;classes:ClassItem[];save:(s:Settings)=>void}){const reminders=[...classes].filter(c=>c.enabled).sort((a,b)=>a.day-b.day||a.start.localeCompare(b.start));return <><div className="pageTitle"><div><small>PERSONAL</small><h1>My settings</h1></div></div><section className="settings"><h3><Palette/> Appearance</h3><label>Color theme<select value={settings.theme} onChange={e=>save({...settings,theme:e.target.value as Settings['theme']})}><option value="system">Use device setting</option><option value="light">Light</option><option value="dark">Dark</option></select></label></section><section className="settings spaced"><h3><Bell/> My reminders</h3><label>Remind me before class<select value={settings.leadMinutes} onChange={e=>save({...settings,leadMinutes:+e.target.value})}><option value="5">5 minutes</option><option value="10">10 minutes</option><option value="15">15 minutes</option><option value="30">30 minutes</option></select></label><label>Alert style<select value={settings.mode} onChange={e=>save({...settings,mode:e.target.value as ReminderMode})}><option value="both">Sound & vibration</option><option value="sound">Sound</option><option value="vibrate">Vibration</option><option value="silent">Off</option></select></label>{reminders.length>0&&<p className="helper">{reminders.length} allocated class reminder{reminders.length===1?'':'s'} active on this device.</p>}</section></>}
 void SettingsPageLegacy;
