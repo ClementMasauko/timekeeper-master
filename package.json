@@ -1,0 +1,35 @@
+{
+  "name": "timekeeper-master",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "android:sync": "npm run build && cap sync android",
+    "android:apk": "npm run android:sync && cd android && gradlew.bat assembleDebug",
+    "android:release": "powershell -NoProfile -ExecutionPolicy Bypass -File ./build-release.ps1"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
+    "@capacitor/filesystem": "^7.1.4",
+    "@capacitor/local-notifications": "^7.0.3",
+    "@capacitor/share": "^7.0.3",
+    "jszip": "^3.10.1",
+    "lucide-react": "^0.544.0",
+    "pdfjs-dist": "^5.4.149",
+    "qrcode": "^1.5.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.2",
+    "typescript": "~5.8.3",
+    "vite": "^7.1.5"
+  }
+}

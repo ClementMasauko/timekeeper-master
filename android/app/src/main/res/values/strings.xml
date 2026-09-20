@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">TimeKeeper Master</string>
+    <string name="title_activity_main">TimeKeeper Master</string>
+    <string name="package_name">com.timekeeper.master</string>
+    <string name="custom_url_scheme">com.timekeeper.master</string>
+    <string name="widget_description">View today’s timetable from your home screen</string>
+</resources>

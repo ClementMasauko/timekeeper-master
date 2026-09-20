@@ -1,0 +1,17 @@
+node_modules/
+.npm-cache/
+dist/
+.gradle/
+.gradle-clean/
+.gradle-clean2/
+.android-sdk/
+android/.gradle/
+android/local.properties
+android/app/build/
+*.zip
+*.jks
+*.keystore
+.release-secrets.properties
+release/
+*.apk
+*.tsbuildinfo

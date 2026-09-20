@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:gravity="center_vertical" android:padding="18dp"
+    android:background="@drawable/widget_background">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TIMEKEEPER MASTER"
+        android:textColor="#AEE3FF" android:textSize="11sp" android:textStyle="bold" />
+    <TextView android:id="@+id/widget_date" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginTop="6dp" android:textColor="#FFFFFF" android:textSize="17sp" android:textStyle="bold" />
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5dp"
+        android:text="Tap to view today’s classes" android:textColor="#DCEEFF" android:textSize="13sp" />
+</LinearLayout>
