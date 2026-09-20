@@ -7,7 +7,8 @@ export interface CloudConfig{url:string;key:string}
 interface Session{access_token:string;refresh_token:string;expires_at:number;user:{id:string;email?:string}}
 interface CloudBackup{format:'timekeeper-cloud-v1';modifiedAt:number;values:Record<string,string>;pdfs:Record<string,string>}
 const CONFIG='tk_cloud_config',SESSION='tk_cloud_session',MODIFIED='tk_sync_modified_at';
-export const getCloudConfig=():CloudConfig=>{try{return JSON.parse(localStorage.getItem(CONFIG)||'{}')}catch{return{url:'',key:''}}};
+const DEFAULT_CLOUD:CloudConfig={url:'https://ueslwqiheolcqolhhilq.supabase.co',key:'sb_publishable_EHWnnfgsd83tZdEyzOwAKg_wtXlz_Ew'};
+export const getCloudConfig=():CloudConfig=>DEFAULT_CLOUD;
 export const saveCloudConfig=(value:CloudConfig)=>localStorage.setItem(CONFIG,JSON.stringify({url:value.url.replace(/\/$/,''),key:value.key.trim()}));
 export const getCloudSession=():Session|null=>{try{return JSON.parse(localStorage.getItem(SESSION)||'null')}catch{return null}};
 const headers=(config:CloudConfig,token?:string)=>({'apikey':config.key,'Authorization':`Bearer ${token||config.key}`,'Content-Type':'application/json'});
