@@ -61,5 +61,29 @@ Outputs:
 
 The app always writes locally first. Without internet or an account, all
 existing timetable, parsing, reminder, sharing and backup features continue
-to work normally. The project URL and publishable key are intentionally not
-committed because each distributor should connect their own Supabase project.
+to work normally. The distributed build can include its public Supabase URL
+and publishable key; never include a service-role key.
+
+## Secure marks and academic roles
+
+Run `supabase/academic.sql` once in the same Supabase project's SQL editor.
+It creates server-enforced roles, subject allocations, marking windows,
+marks and reopening requests. Row-level security ensures teachers can enter
+only marks for subjects allocated to them, students see only their own marks,
+and administrators can read but cannot edit marks.
+
+After the administrator has created an app account, bootstrap that first
+administrator in the SQL editor (replace the email):
+
+```sql
+insert into public.timekeeper_profiles(id,role,display_name)
+select id,'admin','School Administrator'
+from auth.users
+where email='ADMIN_EMAIL_HERE'
+on conflict(id) do update set role='admin';
+```
+
+Further teacher and student role requests are approved inside the app. The
+administrator also assigns teacher subjects and controls the period during
+which teachers may add or edit marks. Reopening requests are handled in the
+same administrator-only portal.

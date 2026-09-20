@@ -1,7 +1,7 @@
 import {useEffect,useState} from 'react';
 import {CheckCircle2,Download,RefreshCw,ShieldCheck} from 'lucide-react';
 
-const CURRENT_CODE=3,CURRENT_NAME='1.2.0';
+const CURRENT_CODE=4,CURRENT_NAME='1.3.0';
 const MANIFEST_URL='https://raw.githubusercontent.com/ClementMasauko/clement-masauko/main/update.json';
 type Release={versionCode:number;versionName:string;minimumVersionCode?:number;required?:boolean;apkUrl:string;notes?:string[];sha256?:string;publishedAt?:string};
 
