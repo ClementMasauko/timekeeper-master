@@ -149,7 +149,7 @@ returns boolean language sql stable security definer set search_path=public as $
  select exists(select 1 from public.timekeeper_assessments a join public.timekeeper_teacher_subjects x
  on x.teacher_id=auth.uid() and x.school_id=a.school_id and lower(x.subject)=lower(a.subject) and lower(x.class_group)=lower(a.class_group)
  where a.id=p_assessment and a.school_id=public.timekeeper_school_id()
- and now() between a.opens_at and greatest(a.closes_at,coalesce(a.reopened_until,a.closes_at)))
+ and now() between a.opens_at and greatest(a.closes_at,coalesce(a.reopened_until,a.closes_at))
  and not exists(select 1 from public.timekeeper_results r where r.assessment_id=a.id and r.teacher_id=auth.uid() and r.submitted_at is not null)
  );
 $$;
