@@ -4,7 +4,8 @@ import {getCloudConfig,getCloudSession} from './cloudSync';
 import {loadAllocations} from './storage';
 import SchoolSuite from './schoolSuite';
 
-type Role='pending'|'teacher'|'student'|'admin';
+export type AcademicRole='pending'|'teacher'|'student'|'admin';
+type Role=AcademicRole;
 type Profile={id:string;role:Role;display_name:string;teacher_name?:string;student_number?:string;class_group?:string};
 type Assignment={id:number;teacher_id:string;subject:string;class_group:string};
 type WindowRow={id:number;subject:string;class_group:string;opens_at:string;closes_at:string;reopened_until?:string};
@@ -12,7 +13,17 @@ type Mark={id:number;student_id:string;subject:string;class_group:string;assessm
 type RequestRow={id:number;teacher_id:string;subject:string;class_group:string;reason:string;status:string;requested_until?:string};
 const clean=(v:string)=>v.toLowerCase().replace(/\b(mr|mrs|miss|ms)\b/g,'').replace(/[^a-z]/g,'');
 
+export function useAcademicRole(){
+ const [,refreshAuth]=useState(0);
+ useEffect(()=>{const changed=()=>refreshAuth(value=>value+1);window.addEventListener('timekeeper-auth',changed);return()=>window.removeEventListener('timekeeper-auth',changed)},[]);
+ const session=getCloudSession() as {access_token:string;user:{id:string}}|null,config=getCloudConfig();
+ const [role,setRole]=useState<AcademicRole|null>(null);
+ useEffect(()=>{let active=true;if(!session||!config.url||!config.key){setRole(null);return}fetch(`${config.url}/rest/v1/timekeeper_profiles?id=eq.${session.user.id}&select=role`,{headers:{apikey:config.key,Authorization:`Bearer ${session.access_token}`}}).then(async response=>response.ok?response.json():[]).then(rows=>{if(active)setRole(rows[0]?.role||null)}).catch(()=>{if(active)setRole(null)});return()=>{active=false}},[session?.user.id,session?.access_token,config.url,config.key]);
+ return role;
+}
+
 export default function AcademicPortal(){
+ useAcademicRole();
  const session=getCloudSession() as {access_token:string;user:{id:string;email?:string}}|null,config=getCloudConfig();
  const [profile,setProfile]=useState<Profile|null>(null),[profiles,setProfiles]=useState<Profile[]>([]),[assignments,setAssignments]=useState<Assignment[]>([]),[windows,setWindows]=useState<WindowRow[]>([]),[marks,setMarks]=useState<Mark[]>([]),[requests,setRequests]=useState<RequestRow[]>([]),[loading,setLoading]=useState(Boolean(session)),[status,setStatus]=useState('');
  const [requestedRole,setRequestedRole]=useState<'teacher'|'student'>('teacher'),[name,setName]=useState(''),[studentNumber,setStudentNumber]=useState(''),[classGroup,setClassGroup]=useState('');
