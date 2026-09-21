@@ -155,7 +155,11 @@ export default function SchoolPlatform() {
         headers: { ...headers(), ...(options.headers || {}) },
       }),
       text = await response.text();
-    if (!response.ok) throw new Error(text || "School request failed");
+    if (!response.ok) {
+      let message = text || "School request failed";
+      try { message = JSON.parse(text).message || message; } catch { /* plain-text response */ }
+      throw new Error(message);
+    }
     return text ? JSON.parse(text) : [];
   };
   const rpc = async (name: string, body: unknown) =>
