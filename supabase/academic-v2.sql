@@ -246,3 +246,6 @@ revoke execute on function public.timekeeper_create_school(text) from public,ano
 grant execute on function public.timekeeper_submit_results(bigint),public.timekeeper_reopen_assessment(bigint,int) to authenticated;
 grant execute on function public.timekeeper_request_invigilation_replacement(bigint) to authenticated;
 grant usage,select on all sequences in schema public to authenticated;
+
+-- Apply automatic-membership-approval.sql after this migration to enable
+-- exact-and-unique approval against published allocation and roster data.

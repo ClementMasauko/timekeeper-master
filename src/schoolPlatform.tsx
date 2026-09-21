@@ -372,7 +372,7 @@ function SchoolSetup({
         p_student_number: number || null,
         p_class_group: group || null,
       });
-      setStatus("Request sent to the school administrator.");
+      setStatus("Membership checked. Exact verified matches are approved automatically; other requests await administrator approval.");
       window.dispatchEvent(new Event("timekeeper-auth"));
       await done();
     } catch (e) {
