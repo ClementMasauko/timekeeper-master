@@ -68,3 +68,8 @@ html:not([data-academic-role="admin"]) .pageTitle>.round,html:not([data-academic
 .adminWorkspace .suiteRow:first-of-type,.adminWorkspace .approvalRow:first-of-type{margin-top:14px}.notices .suiteRow{margin-top:10px;padding:13px;border:1px solid var(--border);border-radius:14px;background:var(--surface-2)}
 .toolButtons{margin-top:12px}.wideTool+.helper{margin-top:12px}.reopenRequest{display:grid;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
 @media(max-width:420px){.content>.settings,.content>.schoolPlatform,.content>.schoolSuite{margin-bottom:16px}.schoolPlatform,.adminWorkspace{gap:15px}.settings{padding:16px}.classCard{padding:15px}.day{margin:24px 0}}
+
+/* Upcoming-card metadata remains readable in explicit and device-controlled themes. */
+.classDetails{min-width:0;flex:1}.classCard .classGroup{color:#c7d8e8;font-weight:750}.dateBox{flex:none;background:#17344d;color:#f8fbff;border:1px solid #42647f}.dateBox b{color:#fff;font-weight:850}.dateBox span{color:#c9d9e7;font-weight:750}
+html[data-theme="light"] .classCard .classGroup{color:#304f67}html[data-theme="light"] .dateBox{background:#e5eef5;color:#17344d;border-color:#b7c9d7}html[data-theme="light"] .dateBox b{color:#17344d}html[data-theme="light"] .dateBox span{color:#4c687e}
+@media(prefers-color-scheme:light){html[data-theme="system"] .classCard .classGroup{color:#304f67}html[data-theme="system"] .dateBox{background:#e5eef5;color:#17344d;border-color:#b7c9d7}html[data-theme="system"] .dateBox b{color:#17344d}html[data-theme="system"] .dateBox span{color:#4c687e}}
