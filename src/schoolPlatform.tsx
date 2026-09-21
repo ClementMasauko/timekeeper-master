@@ -354,29 +354,21 @@ function SchoolSetup({
   status: string;
   setStatus: (s: string) => void;
 }) {
-  const [mode, setMode] = useState<"create" | "join">("join"),
-    [name, setName] = useState(""),
+  const [name, setName] = useState(""),
     [code, setCode] = useState(""),
     [role, setRole] = useState<"teacher" | "student">("teacher"),
     [number, setNumber] = useState(""),
     [group, setGroup] = useState("");
   const submit = async () => {
     try {
-      if (mode === "create")
-        await api("timekeeper_create_school", { p_name: name });
-      else
-        await api("timekeeper_join_school", {
-          p_code: code,
-          p_name: name,
-          p_role: role,
-          p_student_number: number || null,
-          p_class_group: group || null,
-        });
-      setStatus(
-        mode === "create"
-          ? "School created. You are its administrator."
-          : "Request sent to the school administrator.",
-      );
+      await api("timekeeper_join_school", {
+        p_code: code,
+        p_name: name,
+        p_role: role,
+        p_student_number: number || null,
+        p_class_group: group || null,
+      });
+      setStatus("Request sent to the school administrator.");
       window.dispatchEvent(new Event("timekeeper-auth"));
       await done();
     } catch (e) {
@@ -386,28 +378,14 @@ function SchoolSetup({
   return (
     <section className="settings schoolSetup">
       <h3>
-        <School /> Join or create a school
+        <School /> Join your school
       </h3>
-      <div className="viewToggle">
-        <button
-          className={mode === "join" ? "active" : ""}
-          onClick={() => setMode("join")}
-        >
-          Join school
-        </button>
-        <button
-          className={mode === "create" ? "active" : ""}
-          onClick={() => setMode("create")}
-        >
-          Create school
-        </button>
-      </div>
+      <p className="helper">Enter the private code supplied by your school administrator. New schools can only be provisioned by the system owner.</p>
       <label>
-        {mode === "create" ? "School name" : "Your full name"}
+        Your full name
         <input value={name} onChange={(e) => setName(e.target.value)} />
       </label>
-      {mode === "join" && (
-        <>
+      <>
           <label>
             School code
             <input
@@ -439,16 +417,13 @@ function SchoolSetup({
               />
             </div>
           )}
-        </>
-      )}
+      </>
       <button
         className="wideTool"
-        disabled={!name || (mode === "join" && !code)}
+        disabled={!name || !code}
         onClick={submit}
       >
-        {mode === "create"
-          ? "Create school and become admin"
-          : "Request membership"}
+        Request membership
       </button>
       {status && <p className="toolStatus">{status}</p>}
     </section>

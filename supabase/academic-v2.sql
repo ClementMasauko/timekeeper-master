@@ -234,7 +234,8 @@ grant select on public.timekeeper_schools,public.timekeeper_publications,public.
 grant insert,update,delete on public.timekeeper_publications,public.timekeeper_students,public.timekeeper_assessments,public.timekeeper_exams,public.timekeeper_invigilation to authenticated;
 grant insert,update on public.timekeeper_results to authenticated;
 grant insert on public.timekeeper_notifications to authenticated;
-grant execute on function public.timekeeper_create_school(text),public.timekeeper_join_school(text,text,public.timekeeper_role,text,text) to authenticated;
+grant execute on function public.timekeeper_join_school(text,text,public.timekeeper_role,text,text) to authenticated;
+revoke execute on function public.timekeeper_create_school(text) from public,anon,authenticated;
 grant execute on function public.timekeeper_submit_results(bigint),public.timekeeper_reopen_assessment(bigint,int) to authenticated;
 grant execute on function public.timekeeper_request_invigilation_replacement(bigint) to authenticated;
 grant usage,select on all sequences in schema public to authenticated;
